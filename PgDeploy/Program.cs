@@ -31,6 +31,8 @@ namespace PgDeploy
             string scriptText = File.ReadAllText(scriptPath);
             using (var connection = new NpgsqlConnection(connString))
             {
+                connection.Notice += new NoticeEventHandler(OnNotice);
+
                 Console.WriteLine($"{scriptPath}");
                 try
                 {
@@ -41,6 +43,11 @@ namespace PgDeploy
                     throw;
                 }
             }
+        }
+
+        private static void OnNotice(object sender, NpgsqlNoticeEventArgs e)
+        {
+            Console.WriteLine(e.Notice.MessageText);
         }
 
         private static List<string> GetOrderedScriptPaths(SqlFolders sqlFolders)
