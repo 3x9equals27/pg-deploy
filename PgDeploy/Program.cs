@@ -57,7 +57,13 @@ namespace PgDeploy
             //and adds filepaths sorted alphabetically per folder.
             foreach(string folder in sqlFolders.SqlScripts)
             {
-                scripts.AddRange(Directory.GetFiles(Path.Combine(sqlFolders.SqlRoot, folder), "*.sql").ToList().OrderBy(name => name, StringComparer.InvariantCulture));
+                try
+                {
+                    scripts.AddRange(Directory.GetFiles(Path.Combine(sqlFolders.SqlRoot, folder), "*.sql").ToList().OrderBy(name => name, StringComparer.InvariantCulture));
+                } catch (DirectoryNotFoundException x)
+                {
+                    Console.WriteLine(x.Message);
+                }
             }
 
             return scripts;
