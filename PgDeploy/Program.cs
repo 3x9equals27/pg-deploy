@@ -31,7 +31,7 @@ namespace PgDeploy
             string scriptText = File.ReadAllText(scriptPath);
             using (var connection = new NpgsqlConnection(connString))
             {
-                Console.Write($"{scriptPath}");
+                Console.WriteLine($"{scriptPath}");
                 try
                 {
                   connection.Execute(scriptText);
